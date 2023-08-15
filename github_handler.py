@@ -12,3 +12,8 @@ def fetch_prs():
 
     prs = json.loads(prs_json)
     return prs
+
+if __name__ == "__main__":
+    prs = fetch_prs()
+    for pr in prs:
+        print(f"PR Number: {pr['number']}, Title: {pr['title']}, URL: {pr['url']}")
