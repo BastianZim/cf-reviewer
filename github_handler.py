@@ -2,7 +2,7 @@ import subprocess
 import json
 
 def fetch_prs():
-    repo_name = "conda-forge/staged-recipes"  # Replace with the correct repository name
+    repo_name = "conda-forge/staged-recipes"
     labels = ["python", "review-requested"]
     label_query = " ".join([f"label:{label}" for label in labels])
 
