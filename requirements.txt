@@ -1,5 +1,6 @@
 click
 grayskull
+jinja2
 PyGithub
 PyYAML
 requests
