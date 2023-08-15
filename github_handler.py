@@ -1,8 +1,14 @@
-from github import Github
+import subprocess
+import json
 
-def fetch_prs_with_labels(token, repo_name, labels):
-    g = Github(token)
-    repo = g.get_repo(repo_name)
-    prs = repo.get_pulls(state='open', sort='created')
-    filtered_prs = [pr for pr in prs if all(label.name in labels for label in pr.labels)]
-    return filtered_prs
+def fetch_prs():
+    repo_name = "conda-forge/staged-recipes"  # Replace with the correct repository name
+    labels = ["python", "review-requested"]
+    label_query = " ".join([f"label:{label}" for label in labels])
+
+    command = f"gh pr list -R {repo_name} -s open --json number,title,url --label {label_query}"
+    result = subprocess.run(command, stdout=subprocess.PIPE, shell=True, text=True)
+    prs_json = result.stdout
+
+    prs = json.loads(prs_json)
+    return prs
