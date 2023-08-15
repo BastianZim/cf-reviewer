@@ -1,0 +1,6 @@
+repository_name: "conda-forge/staged-recipes"
+labels:
+  - "python"
+  - "review-requested"
+number_of_prs: 20
+
