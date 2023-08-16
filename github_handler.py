@@ -1,7 +1,9 @@
+"""Get all PRs from GitHub."""
 import subprocess
 import json
 import yaml
 import jinja2
+import os
 import requests
 
 
@@ -25,9 +27,18 @@ def _get_sorted_prs(config):
     repo_name = config['repository_name']
     label_args = " ".join([f"--label {label}" for label in config['labels']])
     command = f"gh pr list -R {repo_name} -s open --json number,title,url,createdAt {label_args}"
-    result = subprocess.run(command, stdout=subprocess.PIPE, shell=True, text=True)
-    prs_json = result.stdout.strip()
-    prs = json.loads(prs_json) if prs_json else []
+
+    os.environ['CLICOLOR_FORCE'] = '0'
+
+    result = subprocess.check_output(command, shell=True, text=True)
+    prs_json = result.strip()
+
+    # Check if the output is not empty and is a valid JSON
+    if prs_json and prs_json != "null":
+        prs = json.loads(prs_json)
+    else:
+        prs = []
+
     sorted_prs = sorted(prs, key=lambda x: x['createdAt'])[:config['number_of_prs']]
     return sorted_prs
 
@@ -72,7 +83,7 @@ def _extract_package_name(meta_yaml_content):
     return package_name
 
 
-if __name__ == "__main__":
-    prs = fetch_prs()
-    for pr in prs:
-        print(f"PR Number: {pr['number']}, Title: {pr['title']}, URL: {pr['url']}")
+# if __name__ == "__main__":
+#     prs = fetch_prs()
+#     for pr in prs:
+#         print(f"PR Number: {pr['number']}, Title: {pr['title']}, URL: {pr['url']}")
