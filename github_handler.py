@@ -108,7 +108,7 @@ def _extract_package_name(meta_yaml_content):
     return yaml_content['package']['name']
 
 
-# if __name__ == "__main__":
-#     prs = fetch_prs()
-#     for pr in prs:
-#         print(f"PR Number: {pr['number']}, Title: {pr['title']}, URL: {pr['url']}")
+if __name__ == "__main__":
+    prs = fetch_prs()
+    for pr in prs:
+        print(f"PR Number: {pr['number']}, Title: {pr['title']}, URL: {pr['url']}")
