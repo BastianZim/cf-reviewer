@@ -1,4 +1,5 @@
 import click
+
 from github_handler import fetch_prs_with_labels
 from grayskull_handler import run_grayskull
 from file_comparator import compare_files, compare_yaml_files
